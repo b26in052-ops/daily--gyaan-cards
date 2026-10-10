@@ -1,0 +1,121 @@
+
+const knowledge = [
+  {
+    category: "Careers",
+    title: "Build a Strong Resume",
+    description: "Use clear headings, relevant skills, and measurable achievements.",
+    tip: "Keep your resume simple and easy to read."
+  },
+  {
+    category: "Careers",
+    title: "Prepare for Interviews",
+    description: "Practice explaining your projects and solving common interview questions.",
+    tip: "Use real examples to demonstrate your skills."
+  },
+  {
+    category: "Finance",
+    title: "Start Saving Money",
+    description: "Track your income and expenses to understand where your money goes.",
+    tip: "Save a small amount regularly."
+  },
+  {
+    category: "Finance",
+    title: "Understand Compound Growth",
+    description: "Compound growth happens when returns can earn further returns over time.",
+    tip: "Investments involve risk; returns are not guaranteed."
+  },
+  {
+    category: "Startups",
+    title: "Solve a Real Problem",
+    description: "Successful startup ideas often address genuine customer problems.",
+    tip: "Talk to potential customers before building."
+  },
+  {
+    category: "Startups",
+    title: "Build an MVP",
+    description: "A minimum viable product tests your idea with essential features.",
+    tip: "Start small and improve using feedback."
+  },
+  {
+    category: "Tech",
+    title: "What Is AI?",
+    description: "Artificial intelligence helps computers perform tasks such as recognizing patterns and generating text.",
+    tip: "Always verify important AI-generated information."
+  },
+  {
+    category: "Tech",
+    title: "Stay Safe Online",
+    description: "Use unique passwords and two-factor authentication to protect accounts.",
+    tip: "Never share passwords or verification codes."
+  },
+  {
+    category: "Current Affairs",
+    title: "Verify News",
+    description: "Check the original source, date, and supporting evidence before sharing news.",
+    tip: "Do not trust a headline alone."
+  },
+  {
+    category: "Current Affairs",
+    title: "Fact or Opinion?",
+    description: "Facts can be checked using evidence, while opinions express viewpoints.",
+    tip: "Look for reliable evidence."
+  }
+];
+
+const cards = document.getElementById("cards");
+const search = document.getElementById("search");
+
+function displayCards(category = "All", query = "") {
+  const filtered = knowledge.filter(item => {
+    const matchesCategory =
+      category === "All" || item.category === category;
+
+    const text = (
+      item.title + " " +
+      item.description + " " +
+      item.category
+    ).toLowerCase();
+
+    return matchesCategory && text.includes(query.toLowerCase());
+  });
+
+  cards.innerHTML = "";
+
+  if (filtered.length === 0) {
+    cards.innerHTML = "<p>No cards found. Try another search.</p>";
+    return;
+  }
+
+  filtered.forEach(item => {
+    const card = document.createElement("article");
+    card.className = "card";
+
+    const heading = document.createElement("h3");
+    heading.textContent = item.title;
+
+    const description = document.createElement("p");
+    description.textContent = item.description;
+
+    const tip = document.createElement("p");
+    tip.textContent = "💡 " + item.tip;
+
+    const categoryLabel = document.createElement("small");
+    categoryLabel.textContent = item.category;
+
+    card.append(categoryLabel, heading, description, tip);
+    cards.appendChild(card);
+  });
+}
+
+let selectedCategory = "All";
+
+function filterCards(category) {
+  selectedCategory = category;
+  displayCards(selectedCategory, search.value);
+}
+
+search.addEventListener("input", () => {
+  displayCards(selectedCategory, search.value);
+});
+
+displayCards();
